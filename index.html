@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter-wise PDFs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF5733;
+            --secondary-color: #FFC300;
+            --text-color: #333;
+            --dark-text-color: #111;
+            --card-bg: #fff;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);
+            background-attachment: fixed;
+            color: var(--text-color);
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--dark-text-color);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom-left-radius: 50% 10%;
+            border-bottom-right-radius: 50% 10%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .header h1 {
+            font-weight: 600;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            font-style: italic;
+            color: #555;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: -40px auto 20px auto;
+            padding: 20px;
+        }
+
+        .chapter-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .chapter-item {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid var(--primary-color);
+            animation: slideIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chapter-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .chapter-item h2 {
+            font-size: 1.5em;
+            margin: 0;
+            padding: 25px;
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .sheets-list {
+            list-style: none;
+            padding: 0;
+            background-color: #f8f9fa;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .chapter-item.active .sheets-list {
+            max-height: 300px;
+        }
+
+        .sheets-list li a {
+            display: block;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: var(--text-color);
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+        }
+
+        .sheets-list li a:hover {
+            background-color: #e9ecef;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin: 20px;
+        }
+
+        .footer-section h2 {
+            font-size: 1.2em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .footer-section p, .footer-section a {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #3498db;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li a {
+            display: block;
+            padding: 5px 0;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            margin-right: 15px;
+            color: #ecf0f1;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #3498db;
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid #444;
+            padding-top: 20px;
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #95a5a6;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+            }
+            .footer-section {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <h1>गणित के अध्याय (Arithmetic Chapters) 🔢</h1>
+            <p>अपने पसंदीदा अध्याय पर क्लिक करके PDF शीट्स देखें और डाउनलोड करें।</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <ul class="chapter-list" id="chapter-list">
+            </ul>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h2>Contact Us</h2>
+                <p><strong>Address:</strong> 123, AP Digital Library, Ramnagar Morh, Muhammadabad Gogna (MAU)</p>
+                <p><strong>Phone:</strong> +91 9569306753</p>
+                <p><strong>Email:</strong> <a href="mailto:contact@yourwebsite.com">satyamraj0017@gmail.com</a></p>
+            </div>
+            <div class="footer-section">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h2>Arithmetic Chapters</h2>
+                <ul>
+                    <li><a href="#">Percentage</a></li>
+                    <li><a href="#">Ratio</a></li>
+                    <li><a href="#">Profit and Loss</a></li>
+                    <li><a href="#">Time and Work</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h2>Follow Us</h2>
+                <div class="social-icons">
+                    <a href="#" target="_blank">Facebook</a>
+                    <a href="#" target="_blank">Twitter</a>
+                    <a href="#" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Arithmatics Practice site. All Rights Reserved.</p>
+            <p>Designed and Maintained by [Satyam Rajbhar]</p>
+        </div>
+    </footer>
+
+    <script>
+        const chaptersData = [
+            {
+                name: 'Chapter 1: PERCENTAGE (प्रतिशतता)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Percentage/Percentage Sheet 1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Percentage/Percentage Sheet 2.pdf' },
+                    { name: 'Sheet 3', file: 'arithmetic/Percentage/Percentage Sheet 3.pdf' }
+                ]
+            },
+            {
+                name: 'Chapter 2: Ratio and Propotion (अनुपात एवं समानुपात)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Ratio and Propotion/Ratio Sheet -1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Ratio and Propotion/Ratio Sheet -2.pdf' },
+                    { name: 'Ratio Class Notes', file: 'arithmetic/Ratio and Propotion/Ratio Class Notes.pdf' }
+                ]
+            },
+            {
+                name: 'Chapter 3: Time and Work (कार्य और समय)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Time and Work/Time and Work Sheet -1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Time and Work/Time and Work Sheet -2.pdf' },
+                    { name: 'Sheet 3', file: 'arithmetic/Time and Work/Time and Work Sheet -3.pdf' }
+                ]
+            },
+            {
+                name: 'Chapter 4: Pipe and Cisten (पाइप और सिस्टन)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Pipe and Cisten/Pipes and Cistern Sheet 1.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 5: Partnership (साझेदारी)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Partenership/Partnership Sheet 1.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 6: Mixture and alligation (मिश्रण और पृथक्करण)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Mixture and alligation/Mixture and Alligation Sheet-1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Mixture and alligation/Mixture and Alligation Sheet-2.pdf' },
+                    { name: 'Sheet 3', file: 'arithmetic/Mixture and alligation/Mixture and Alligation Sheet-3.pdf' }
+                ]
+            },
+            {
+                name: 'Chapter 7: Average (औसत)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Average/Average Sheet-1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Average/Average Sheet-1.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 8: Simple Interest (साधारण ब्याज)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Simple Interest/Simple Interest Sheet-1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Simple Interest/Simple Interest Sheet-2.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 9: Compound Interest (चक्रवृद्धि ब्याज)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Compound Interest/Compound Interest Sheet-1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Compound Interest/Compound Interest Sheet-2.pdf' },
+                    { name: 'Sheet 3', file: 'arithmetic/Compound Interest/Compound Interest Sheet-3.pdf' },
+                    { name: 'Complete Installment', file: 'arithmetic/Compound Interest/Complete Installment.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 10: Profit and Loss (लाभ और हानि)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Profit and Loss/Profit and Loss Sheet-1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Profit and Loss/Profit and Loss Sheet-2.pdf' },
+                    { name: 'Sheet 3', file: 'arithmetic/Profit and Loss/Profit and Loss Sheet-3.pdf' },
+                    { name: 'Profit and Loss Class Notes', file: 'arithmetic/Profit and Loss/Profit and Loss Class Notes.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 11: Discount (बट्टा)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Discount/Discount Sheet-1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Discount/Discount Sheet-2.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 12:Dishonest Shopkeeper (बेईमान दुकानदार)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Dishonest Shopkeeper/Dishonest Shopkeeper Sheet 1.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 13:Time speed and Distance (समय, चाल तथा दुरी)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Time speed and Distance/Time , Speed and Distance Sheet-1.pdf' },
+                    { name: 'Sheet 2', file: 'arithmetic/Time speed and Distance/Time , Speed and Distance Sheet-2.pdf' },
+                    { name: 'Sheet 3', file: 'arithmetic/Time speed and Distance/Time , Speed and Distance Sheet-3.pdf' }
+                ]
+            },
+            {
+                name: 'Chapter 14: Train (रेलगाड़ी)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Train/Train Sheet.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 15: Boat & Stream (नाव तथा धारा)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Boat & Stream/Boat and Stream Sheet.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 16: Race (दौड़)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Race/Race Sheet.pdf' },
+                ]
+            },
+            {
+                name: 'Chapter 17: Age Problems (आयु पर आधारित प्रश्न)',
+                sheets: [
+                    { name: 'Sheet 1', file: 'arithmetic/Age/Problem on Ages Class Notes.pdf' },
+                ]
+            },
+        ];
+
+        const chapterList = document.getElementById('chapter-list');
+
+        function renderChapters() {
+            chaptersData.forEach(chapter => {
+                const chapterItem = document.createElement('li');
+                chapterItem.classList.add('chapter-item');
+
+                const chapterHeading = document.createElement('h2');
+                chapterHeading.textContent = chapter.name;
+                chapterItem.appendChild(chapterHeading);
+
+                const sheetsList = document.createElement('ul');
+                sheetsList.classList.add('sheets-list');
+                
+                chapter.sheets.forEach(sheet => {
+                    const sheetItem = document.createElement('li');
+                    const sheetLink = document.createElement('a');
+                    sheetLink.href = sheet.file;
+                    sheetLink.textContent = sheet.name;
+                    sheetLink.setAttribute('target', '_blank');
+                    sheetLink.setAttribute('rel', 'noopener noreferrer');
+                    sheetItem.appendChild(sheetLink);
+                    sheetsList.appendChild(sheetItem);
+                });
+
+                chapterItem.appendChild(sheetsList);
+                chapterList.appendChild(chapterItem);
+            });
+        }
+
+        function addEventListeners() {
+            const chapterItems = document.querySelectorAll('.chapter-item');
+            chapterItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderChapters();
+            addEventListeners();
+        });
+    </script>
+
+</body>
+</html>
